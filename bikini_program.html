@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Feel Good in Your Bikini · 13-Week Program</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Lato', sans-serif;
+    background: linear-gradient(135deg, #fdf6ee 0%, #f0f7f4 50%, #fdf0f8 100%);
+    min-height: 100vh;
+    color: #2d2d2d;
+  }
+  h1, h2, h3 { font-family: 'Playfair Display', serif; }
+
+  /* HEADER */
+  #header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    padding: 48px 24px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(126,200,164,0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(244,164,96,0.15) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  #header .eyebrow {
+    font-size: 12px; letter-spacing: 4px; color: #7EC8A4;
+    margin-bottom: 12px; text-transform: uppercase; font-family: 'Lato', sans-serif;
+  }
+  #header h1 {
+    font-size: clamp(26px, 6vw, 50px); font-weight: 400; color: #fff;
+    margin-bottom: 8px; letter-spacing: 2px; font-style: italic;
+  }
+  #header .subtitle {
+    font-size: clamp(12px, 2.5vw, 15px); color: #b0c4d8;
+    margin-bottom: 24px; letter-spacing: 1px;
+  }
+  .progress-wrap { max-width: 400px; margin: 0 auto 20px; }
+  .progress-label { display: flex; justify-content: space-between; font-size: 11px; color: #7EC8A4; margin-bottom: 6px; }
+  .progress-track { background: rgba(255,255,255,0.1); border-radius: 20px; height: 8px; overflow: hidden; }
+  .progress-bar {
+    background: linear-gradient(90deg, #7EC8A4, #F4A460, #C77DBA);
+    height: 100%; border-radius: 20px; transition: width 0.6s ease;
+  }
+  .shop-btn {
+    margin-top: 4px;
+    background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; padding: 8px 20px; border-radius: 20px;
+    cursor: pointer; font-size: 13px; letter-spacing: 1px; font-family: 'Lato', sans-serif;
+    transition: background 0.2s;
+  }
+  .shop-btn:hover { background: rgba(255,255,255,0.2); }
+  #shopping-panel {
+    max-width: 600px; margin: 16px auto 0;
+    background: rgba(255,255,255,0.07); border-radius: 12px;
+    padding: 16px; text-align: left; display: none;
+  }
+  #shopping-panel.open { display: block; }
+  .shop-header { color: #F4A460; font-size: 11px; letter-spacing: 2px; margin-bottom: 10px; }
+  .shop-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .shop-item span { color: #fff; font-size: 13px; }
+  .shop-badge { font-size: 10px; }
+  .shop-badge.essential { color: #7EC8A4; }
+  .shop-badge.nice { color: #b0c4d8; }
+  .shop-tip { color: #7EC8A4; font-size: 11px; margin-top: 10px; font-style: italic; }
+
+  /* PHASE TABS */
+  #phase-nav {
+    display: flex; overflow-x: auto; background: #1a1a2e;
+    border-bottom: 3px solid #0f3460;
+  }
+  .phase-tab {
+    flex: 1; min-width: 110px; padding: 14px 8px;
+    background: transparent; border: none; cursor: pointer;
+    color: #8899aa; font-family: 'Lato', sans-serif;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    transition: all 0.3s ease;
+  }
+  .phase-tab.active { font-weight: 700; color: #1a1a2e; }
+  .phase-tab .tab-emoji { font-size: 20px; }
+  .phase-tab .tab-name { letter-spacing: 1px; font-size: 11px; }
+  .phase-tab .tab-weeks { font-size: 10px; opacity: 0.8; }
+
+  /* MAIN CONTENT */
+  #content { max-width: 860px; margin: 0 auto; padding: 24px 16px; }
+
+  /* PHASE CARD */
+  .phase-card {
+    border-radius: 16px; padding: 28px;
+    border-left: 6px solid var(--phase-color);
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    background: linear-gradient(135deg, var(--phase-accent) 0%, #fff 100%);
+  }
+  .phase-card-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+  .phase-eyebrow { font-size: 11px; letter-spacing: 3px; color: var(--phase-color); margin-bottom: 6px; text-transform: uppercase; }
+  .phase-title { font-size: clamp(20px, 4vw, 30px); font-weight: 400; margin-bottom: 6px; }
+  .phase-tagline { font-size: 15px; color: #666; margin-bottom: 12px; font-style: italic; font-family: 'Playfair Display', serif; }
+  .phase-goal { font-size: 13px; color: #444; line-height: 1.6; }
+  .phase-days-badge {
+    background: var(--phase-color); color: #fff;
+    padding: 8px 16px; border-radius: 20px;
+    font-size: 12px; white-space: nowrap; align-self: flex-start;
+    font-family: 'Lato', sans-serif;
+  }
+  .phase-focus {
+    margin-top: 14px; padding: 12px 16px;
+    background: rgba(0,0,0,0.04); border-radius: 8px;
+    font-size: 13px; color: #555; line-height: 1.6;
+  }
+
+  /* SECTION TABS */
+  .section-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .section-tab {
+    padding: 10px 20px; border-radius: 24px; cursor: pointer;
+    font-family: 'Lato', sans-serif; font-size: 13px; letter-spacing: 0.5px;
+    transition: all 0.2s ease; border: 2px solid #e0e0e0;
+    background: #fff; color: #666;
+  }
+  .section-tab.active {
+    background: var(--phase-color); color: #fff;
+    border-color: var(--phase-color);
+  }
+
+  /* PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  /* MEAL CARDS */
+  .meal-grid { display: grid; gap: 14px; margin-bottom: 20px; }
+  .meal-card {
+    background: #fff; border-radius: 12px; padding: 18px 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border-top: 3px solid var(--phase-color);
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 12px;
+  }
+  .meal-day { font-size: 11px; color: #999; letter-spacing: 1px; margin-bottom: 4px; }
+  .meal-name { font-size: 16px; font-weight: 700; margin-bottom: 6px; font-family: 'Playfair Display', serif; }
+  .meal-desc { font-size: 13px; color: #666; line-height: 1.5; }
+  .meal-badge {
+    background: var(--phase-accent); color: var(--phase-color);
+    padding: 4px 10px; border-radius: 12px;
+    font-size: 11px; white-space: nowrap; flex-shrink: 0;
+    border: 1px solid var(--phase-color-40);
+  }
+  .snack-box { background: #fff; border-radius: 12px; padding: 18px 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .snack-label { font-size: 12px; letter-spacing: 2px; color: var(--phase-color); margin-bottom: 12px; }
+  .snack-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 13px; color: #555; }
+  .snack-dot { color: var(--phase-color); }
+
+  /* WORKOUT CARDS */
+  .workout-grid { display: grid; gap: 12px; }
+  .workout-card {
+    background: #fff; border-radius: 12px; padding: 18px 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    display: flex; justify-content: space-between; align-items: flex-start;
+    border: 2px solid transparent; transition: all 0.3s ease;
+  }
+  .workout-card.done {
+    background: var(--phase-accent);
+    border-color: var(--phase-color);
+  }
+  .workout-label { font-size: 16px; font-weight: 700; margin-bottom: 6px; font-family: 'Playfair Display', serif; }
+  .workout-label.done-text { color: var(--phase-color); }
+  .workout-detail { font-size: 13px; color: #666; line-height: 1.5; }
+  .workout-check {
+    background: transparent; border: 2px solid var(--phase-color);
+    color: var(--phase-color); width: 40px; height: 40px;
+    border-radius: 50%; cursor: pointer; font-size: 16px; flex-shrink: 0;
+    transition: all 0.2s ease; font-family: 'Lato', sans-serif;
+  }
+  .workout-check.checked { background: var(--phase-color); color: #fff; }
+  .workout-note { text-align: center; font-size: 12px; color: #999; margin-top: 8px; }
+
+  /* JOURNAL */
+  .journal-intro { margin-bottom: 16px; font-size: 13px; color: #666; font-style: italic; line-height: 1.6; }
+  .journal-grid { display: grid; gap: 12px; }
+  .journal-prompt { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .journal-prompt-header {
+    padding: 16px 20px; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: background 0.2s;
+  }
+  .journal-prompt-header.saved { background: var(--phase-accent); }
+  .journal-prompt-text { font-size: 13px; font-style: italic; color: #333; line-height: 1.5; flex: 1; }
+  .journal-toggle { color: var(--phase-color); font-size: 20px; flex-shrink: 0; margin-left: 12px; font-weight: 300; }
+  .journal-body { padding: 0 20px 16px; display: none; }
+  .journal-body.open { display: block; }
+  .journal-saved-entry {
+    background: var(--phase-accent); border-radius: 8px; padding: 12px;
+    font-size: 12px; color: #555; margin-bottom: 10px; font-style: italic; line-height: 1.5;
+  }
+  .journal-textarea {
+    width: 100%; min-height: 100px; padding: 12px;
+    border-radius: 8px; border: 1px solid var(--phase-color-60);
+    font-family: 'Lato', sans-serif; font-size: 13px;
+    line-height: 1.6; resize: vertical; color: #333;
+  }
+  .journal-save {
+    margin-top: 8px; background: var(--phase-color);
+    color: #fff; border: none; padding: 10px 20px;
+    border-radius: 20px; cursor: pointer;
+    font-family: 'Lato', sans-serif; font-size: 13px;
+    transition: opacity 0.2s;
+  }
+  .journal-save:hover { opacity: 0.85; }
+
+  /* MILESTONE */
+  .milestone-card {
+    background: #fff; border-radius: 16px; padding: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border-top: 6px solid var(--phase-color);
+    text-align: center; margin-bottom: 20px;
+  }
+  .milestone-emoji { font-size: 48px; margin-bottom: 16px; }
+  .milestone-eyebrow { font-size: 11px; letter-spacing: 3px; color: var(--phase-color); margin-bottom: 12px; }
+  .milestone-text { font-size: 18px; font-weight: 400; margin-bottom: 20px; line-height: 1.5; font-family: 'Playfair Display', serif; }
+  .milestone-reward-box { background: var(--phase-accent); border-radius: 12px; padding: 20px; margin-bottom: 24px; }
+  .milestone-reward-label { font-size: 11px; letter-spacing: 2px; color: var(--phase-color); margin-bottom: 8px; }
+  .milestone-reward-text { font-size: 17px; line-height: 1.5; font-family: 'Playfair Display', serif; }
+  .milestone-btn {
+    background: transparent; border: 2px solid var(--phase-color);
+    color: var(--phase-color); padding: 14px 32px; border-radius: 30px;
+    cursor: pointer; font-family: 'Lato', sans-serif;
+    font-size: 14px; letter-spacing: 1px; transition: all 0.3s ease;
+  }
+  .milestone-btn.achieved { background: var(--phase-color); color: #fff; }
+  .milestone-note { margin-top: 16px; font-size: 13px; color: #888; font-style: italic; }
+  .all-milestones { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); }
+  .all-milestones-label { font-size: 11px; letter-spacing: 2px; color: #999; margin-bottom: 14px; }
+  .milestone-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f0f0; transition: opacity 0.3s; }
+  .milestone-row.done { opacity: 1; }
+  .milestone-row.pending { opacity: 0.5; }
+  .milestone-row-emoji { font-size: 20px; }
+  .milestone-row-info { flex: 1; }
+  .milestone-row-name { font-size: 12px; font-weight: 700; }
+  .milestone-row-reward { font-size: 11px; color: #888; }
+  .milestone-row-check { font-size: 18px; }
+
+  /* FOOTER */
+  #footer {
+    text-align: center; padding: 32px 24px;
+    color: #aaa; font-size: 12px; font-style: italic;
+    border-top: 1px solid #e8e8e8; margin-top: 16px;
+    font-family: 'Playfair Display', serif;
+  }
+  #footer span { font-size: 10px; letter-spacing: 2px; color: #ccc; font-family: 'Lato', sans-serif; font-style: normal; }
+
+  /* SAVE INDICATOR */
+  #save-toast {
+    position: fixed; bottom: 20px; right: 20px;
+    background: #2d2d2d; color: #fff; padding: 10px 18px;
+    border-radius: 20px; font-size: 12px; opacity: 0;
+    transition: opacity 0.4s; pointer-events: none; z-index: 999;
+    font-family: 'Lato', sans-serif;
+  }
+  #save-toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div class="eyebrow">Your Personal Program</div>
+  <h1>Feel Good in Your Bikini</h1>
+  <div class="subtitle">March 8 → June 7 · 13 Weeks · Built Around Your Pantry</div>
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>TOTAL WORKOUTS LOGGED</span>
+      <span id="workout-count">0 / 50+ sessions</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-bar" id="progress-bar" style="width:0%"></div>
+    </div>
+  </div>
+  <button class="shop-btn" onclick="toggleShop()">🛒 <span id="shop-btn-text">Show</span> Pantry Add-Ons List</button>
+  <div id="shopping-panel">
+    <div class="shop-header">BUDGET-FRIENDLY ADDS</div>
+    <div class="shop-item"><span>✦ Frozen broccoli & spinach</span><span class="shop-badge essential">Essential</span></div>
+    <div class="shop-item"><span>✦ Frozen edamame</span><span class="shop-badge essential">Essential</span></div>
+    <div class="shop-item"><span>✦ Tempeh</span><span class="shop-badge essential">Essential</span></div>
+    <div class="shop-item"><span>✦ Frozen fruit (mango, berries)</span><span class="shop-badge essential">Essential</span></div>
+    <div class="shop-item"><span>✦ Chickpeas (extra cans)</span><span class="shop-badge essential">Essential</span></div>
+    <div class="shop-item"><span>✦ Tahini</span><span class="shop-badge nice">Nice to have</span></div>
+    <div class="shop-item"><span>✦ Lemons</span><span class="shop-badge nice">Nice to have</span></div>
+    <div class="shop-item"><span>✦ Brown rice</span><span class="shop-badge nice">Nice to have</span></div>
+    <div class="shop-item"><span>✦ Miso paste</span><span class="shop-badge nice">Nice to have</span></div>
+    <div class="shop-tip">💡 Frozen veggies = same nutrition as fresh, fraction of the cost.</div>
+  </div>
+</div>
+
+<!-- PHASE NAV -->
+<div id="phase-nav">
+  <button class="phase-tab active" onclick="setPhase(0)" id="tab-0" style="background:#7EC8A4;color:#1a1a2e;">
+    <span class="tab-emoji">🌱</span><span class="tab-name">RESET</span><span class="tab-weeks">Week 1–2</span>
+  </button>
+  <button class="phase-tab" onclick="setPhase(1)" id="tab-1">
+    <span class="tab-emoji">🔥</span><span class="tab-name">BUILD</span><span class="tab-weeks">Week 3–5</span>
+  </button>
+  <button class="phase-tab" onclick="setPhase(2)" id="tab-2">
+    <span class="tab-emoji">🌊</span><span class="tab-name">ELEVATE</span><span class="tab-weeks">Week 6–8</span>
+  </button>
+  <button class="phase-tab" onclick="setPhase(3)" id="tab-3">
+    <span class="tab-emoji">✨</span><span class="tab-name">GLOW</span><span class="tab-weeks">Week 9–11</span>
+  </button>
+  <button class="phase-tab" onclick="setPhase(4)" id="tab-4">
+    <span class="tab-emoji">🌺</span><span class="tab-name">RADIATE</span><span class="tab-weeks">Week 12–13</span>
+  </button>
+</div>
+
+<!-- CONTENT -->
+<div id="content"></div>
+
+<div id="footer">
+  "The goal isn't to be perfect. The goal is to feel at home in your body." 🌊<br/>
+  <span>MAR 8 – JUN 7 · YOUR PROGRAM · YOUR PACE</span>
+</div>
+
+<div id="save-toast">✓ Saved</div>
+
+<script>
+const PHASES = [
+  {
+    id:1, name:"RESET", emoji:"🌱", weeks:"Week 1–2", dates:"Mar 8 – Mar 21",
+    color:"#7EC8A4", accent:"#d0f0e0",
+    tagline:"Clear the pantry. Clear the mind.",
+    goal:"Build consistency, use perishables, establish baseline habits",
+    focus:"Use fresh produce NOW (salad items, cucumber, broccoli, yogurt). Establish a daily routine. Start journaling.",
+    days:"6 days/week",
+    meals:[
+      {day:"Sun/Wed", name:"Mediterranean Tuna Bowl", desc:"Tuna over rice with cucumber, olive oil, lemon zest, za'atar", badge:"USE FIRST 🥒"},
+      {day:"Mon/Thu", name:"Spiced Lentil Soup", desc:"Lentils, canned tomatoes, cumin, turmeric, smoked paprika", badge:"Budget ✓"},
+      {day:"Tue/Fri", name:"Tofu Stir-fry", desc:"Tofu with broccoli, soy sauce, sesame oil, ginger over rice", badge:"Protein ✓"},
+      {day:"Sat", name:"Bean Tacos", desc:"Black beans, salsa, cheese, yogurt (as sour cream), spiced with Mexican blend", badge:"Fun meal 🎉"},
+    ],
+    snacks:["Seaweed + nuts","Yogurt + a drizzle of nut milk","Cucumber slices + hummus (make from canned chickpeas)"],
+    sessions:[
+      {label:"Day 1 · Exercise Bike", detail:"30 min easy ride, resistance level 2–3. Seat height should let your knee have a slight bend at the bottom — protects the joint. Just get comfortable and find your rhythm."},
+      {label:"Day 2 · Upper Body Strength", detail:"3×12 wall push-ups, 3×12 seated overhead press (water jugs/cans), 3×15 seated tricep dips on chair edge, 3×12 bent-over rows. Rest 45 sec between sets."},
+      {label:"Day 3 · Rowing Machine + Core", detail:"20 min easy row (focus on form: push with legs first, then lean back, then pull arms). Rest. Then 15 min core: dead bugs, seated twists, pelvic tilts, modified bird dogs."},
+      {label:"Day 4 · Lower Body (Joint-Safe)", detail:"3×15 glute bridges, 3×12 standing glute kickbacks, 3×15 clamshells (lying down — great for hips and ankles), 3×12 standing side leg raises. NO deep knee bends."},
+      {label:"Day 5 · Elliptical", detail:"30 min on the elliptical, resistance 2–3. The elliptical is your best friend — full body, zero impact on hips/knees/ankles. Go at a conversational pace today."},
+      {label:"Day 6 · Full Body Flow + Stretch", detail:"15 min light bodyweight circuit (halved reps from Day 2 + Day 4) + 20 min full body stretch. Focus on hips, ankles, and knees."},
+    ],
+    journal:[
+      "How does my body feel right now — honestly?",
+      "What does 'feeling good in my bikini' actually mean to me beyond appearance?",
+      "What's one small win I had today, no matter how tiny?",
+      "What am I eating when I'm stressed vs. when I'm calm?"
+    ],
+    milestone:"Complete 8 of 14 days of journaling + 4 workouts/week",
+    reward:"🛁 Treat yourself to a full self-care night — face mask, bath, your show, no guilt."
+  },
+  {
+    id:2, name:"BUILD", emoji:"🔥", weeks:"Week 3–5", dates:"Mar 22 – Apr 11",
+    color:"#F4A460", accent:"#fdebd0",
+    tagline:"Momentum is everything.",
+    goal:"Increase intensity, diversify meals, build strength foundation",
+    focus:"Transition to pantry staples + frozen veggies (budget-friendly). Add structure to workouts. Drink more water.",
+    days:"6 days/week",
+    meals:[
+      {day:"Sun/Wed", name:"Asian Peanut Noodles", desc:"Ramen noodles, peanut butter, soy sauce, sesame, frozen broccoli, tofu", badge:"Budget ✓"},
+      {day:"Mon/Thu", name:"Tuscan White Bean Pasta", desc:"Cannellini beans, canned tomatoes, pasta, garlic, olive oil, Italian herbs", badge:"Filling ✓"},
+      {day:"Tue/Fri", name:"Smoky Chicken Tikka (your way)", desc:"Chicken in yogurt + tikka masala paste, served over rice. Heavy sauce = no dry chicken.", badge:"Flavor-forward 🌶️"},
+      {day:"Sat", name:"Spiced Tomato & Chickpea Stew", desc:"Chickpeas simmered in harissa-spiced tomato sauce, served over rice or with warm bread", badge:"Brunch energy ✨"},
+    ],
+    snacks:["Nuts + a piece of fruit (add to shopping)","Nut milk smoothie base + frozen fruit","Seaweed + ramen broth as a light soup"],
+    sessions:[
+      {label:"Day 1 · Elliptical Intervals", detail:"35 min: 3 min moderate (resistance 3) + 1 min push hard (resistance 5). Repeat 7x. Arms on the handles — this is a full body burn. Great on the hips."},
+      {label:"Day 2 · Upper Body Strength+", detail:"4×12 wall push-ups (try incline on counter), 4×12 upright rows (jugs), 4×15 lateral raises, 4×12 seated bicep curls, 3×15 shoulder press. Rest 40 sec."},
+      {label:"Day 3 · Rowing Machine Intervals + Core", detail:"25 min row: 2 min steady / 30 sec hard pull. Repeat. Then 15 min core: dead bugs, modified side plank, reverse crunches, plank on forearms (30 sec holds)."},
+      {label:"Day 4 · Lower Body Strength+", detail:"4×15 glute bridges, 4×12 single-leg glute bridge (alternate carefully), 4×15 clamshells with resistance (tied scarf), 4×12 donkey kicks, 3×30 sec wall sit."},
+      {label:"Day 5 · Bike Endurance + Standing Moves", detail:"20 min bike (resistance 4, steady), then 15 min: seated jabs, arm slams, standing bicycle crunches, low side steps. No rest between. Back-to-back burn."},
+      {label:"Day 6 · Active Recovery + Mobility", detail:"25 min: hip flexor stretches, ankle circles, seated hamstring stretch, shoulder rolls, spinal twists. Optional: 10 min very easy elliptical or bike to loosen up."},
+    ],
+    journal:[
+      "What changed in my body or energy this week?",
+      "When did I feel the strongest this week — physically or mentally?",
+      "Am I eating enough? Am I eating mindfully or on autopilot?",
+      "What's one thing I want to do differently next week?"
+    ],
+    milestone:"Complete 3 full weeks of the BUILD phase (workouts + meals)",
+    reward:"💄 New workout set OR a small beauty treat you've been eyeing."
+  },
+  {
+    id:3, name:"ELEVATE", emoji:"🌊", weeks:"Week 6–8", dates:"Apr 12 – May 2",
+    color:"#5B9BD5", accent:"#d6eaf8",
+    tagline:"You're not starting — you're leveling up.",
+    goal:"Dial in nutrition, boost cardio, build visible confidence",
+    focus:"Reduce processed snacks (ramen as occasional treat). Prioritize protein at every meal. Increase cardio duration.",
+    days:"6 days/week",
+    meals:[
+      {day:"Sun/Wed", name:"Lentil & Spinach Curry", desc:"Red lentils, canned tomatoes, frozen spinach, coconut (sub nut milk), garam masala", badge:"Iron boost 💪"},
+      {day:"Mon/Thu", name:"Crispy Tofu Tacos", desc:"Pan-fried tofu in chipotle-cumin marinade, with black beans, salsa, shredded cabbage + yogurt drizzle", badge:"High protein ✓"},
+      {day:"Tue/Fri", name:"Mediterranean Rice Bowl", desc:"Brown rice, white beans, roasted frozen veggies, feta (small amount), lemon-herb dressing", badge:"Balanced ✓"},
+      {day:"Sat", name:"Tuna Pasta Puttanesca", desc:"Tuna, canned tomatoes, capers, olives, pasta. Rich, satisfying, zero effort.", badge:"Pantry hero 🥫"},
+    ],
+    snacks:["Greek yogurt + nuts","Tempeh strips (pan-fried with soy sauce)","Edamame (frozen, budget-friendly add)"],
+    sessions:[
+      {label:"Day 1 · Elliptical Endurance", detail:"45 min elliptical. First 10 min warm up (resistance 3), middle 25 min push (resistance 5–6, faster stride), last 10 min cool down. This is your primary fat-burning session."},
+      {label:"Day 2 · Push Day (Upper)", detail:"4×15 incline push-ups (hands on counter), 4×12 tricep overhead extensions, 4×15 chest press lying down (jugs), 4×12 front raises. Slow the tempo — 3 sec down, 1 sec up."},
+      {label:"Day 3 · Rowing Machine + Pull + Core", detail:"30 min row: 3 min steady / 1 min sprint (hard pulls). Then: 4×12 bent-over rows, 4×12 rear delt flys, 3×20 reverse crunches, 3×15 lying leg raises."},
+      {label:"Day 4 · Glute & Hip Focus", detail:"4×20 glute bridges, 4×15 single-leg glute bridge, 4×15 fire hydrants, 4×12 donkey kicks, 4×15 standing kickbacks. Hip strengthening directly protects your old injuries."},
+      {label:"Day 5 · Bike HIIT", detail:"30 min bike intervals: 2 min easy (resistance 3) / 1 min all-out (resistance 7–8, fast pedal). Repeat 8x. Seated the whole time — no joint stress, massive calorie burn."},
+      {label:"Day 6 · Yoga Flow + Stretch", detail:"YouTube: 'low impact yoga beginners 30 min' OR 'chair yoga for weight loss'. Builds flexibility, reduces joint inflammation, burns more than you think. Don't skip this."},
+    ],
+    journal:[
+      "How has my relationship with food changed since week 1?",
+      "What does my body do now that it couldn't (or wouldn't) do in March?",
+      "Where am I being too hard on myself? Where could I be prouder?",
+      "If June-me could send a message back, what would she say?"
+    ],
+    milestone:"Hit 30 total workout sessions across Phases 1–3",
+    reward:"👙 Buy something for the beach/pool. You earned it — wear it before June."
+  },
+  {
+    id:4, name:"GLOW", emoji:"✨", weeks:"Week 9–11", dates:"May 3 – May 23",
+    color:"#C77DBA", accent:"#f5e6f5",
+    tagline:"Polish, not punish.",
+    goal:"Refine habits, reduce bloat, build confidence in your body",
+    focus:"Anti-inflammatory foods. Reduce excess sodium. Stay hydrated (aim for 8 glasses). Maintain strength.",
+    days:"6 days/week",
+    meals:[
+      {day:"Sun/Wed", name:"Turmeric Rice & Bean Bowl", desc:"Rice cooked with turmeric + cumin seeds, topped with beans, roasted frozen veggies, tahini drizzle", badge:"Anti-inflammatory 🌿"},
+      {day:"Mon/Thu", name:"Miso Tofu Soup", desc:"Tofu cubes, miso paste, seaweed, green onion, mushrooms. Light and nourishing.", badge:"Gut health ✓"},
+      {day:"Tue/Fri", name:"Greek Lentil Salad", desc:"Cooked lentils, cucumber, tomato, olives, feta, lemon vinaigrette", badge:"Fresh + filling ✓"},
+      {day:"Sat", name:"Spiced Chickpea Bowl", desc:"Roasted chickpeas (canned), over yogurt sauce, with warm pita or rice, sumac + paprika", badge:"Flavor bomb 🎯"},
+    ],
+    snacks:["Cucumber + lemon + a pinch of tajín","Nut mix (no added salt)","Yogurt with cinnamon + honey"],
+    sessions:[
+      {label:"Day 1 · Elliptical Power Session", detail:"50 min elliptical. Warm up 5 min, then alternate: 5 min forward stride (resistance 6) / 5 min backward stride (resistance 5 — hits glutes and hamstrings differently). Cool down 5 min."},
+      {label:"Day 2 · Full Upper Body Superset", detail:"No rest between paired moves. A: incline push-up + bent-over row (4×12). B: lateral raise + bicep curl (4×12). C: tricep dip + overhead press (3×15). Rest 60 sec between supersets."},
+      {label:"Day 3 · Row + Pilates Core", detail:"25 min rowing machine (your strongest row session yet — push the pace). Then YouTube: 'Pilates core 20 min no jumping'. Rowing + Pilates is a transformative combo for your midsection."},
+      {label:"Day 4 · Lower Body Superset", detail:"A: glute bridge + clamshell (4×15). B: donkey kick + fire hydrant (4×12). C: standing side raise + kickback (4×12). Rest 60 sec. Feel this in your glutes, not your knees."},
+      {label:"Day 5 · Bike + Core Combo", detail:"30 min bike (resistance 6, steady state — this should feel hard but sustainable) + 20 min core: dead bugs, reverse crunches, plank shoulder taps (knees down), seated Russian twists."},
+      {label:"Day 6 · Mobility + Intentional Rest", detail:"20 min full joint mobility (ankles, hips, knees, shoulders — YouTube 'joint mobility routine'). Then rest. You've earned it. This day is what prevents injury and keeps you going."},
+    ],
+    journal:[
+      "List 5 things your body has done for you this month.",
+      "What food feels like fuel vs. what feels like numbing?",
+      "Who do I want to feel like on the beach — not look like, feel like?",
+      "What habit from this program do I want to keep forever?"
+    ],
+    milestone:"Complete the full GLOW phase with 80%+ consistency",
+    reward:"💅 Full spa day or pamper session. Nails, skin, hair — you choose the luxury."
+  },
+  {
+    id:5, name:"RADIATE", emoji:"🌺", weeks:"Week 12–13", dates:"May 24 – June 7",
+    color:"#E8734A", accent:"#fde8df",
+    tagline:"June is already yours.",
+    goal:"Feel your absolute best. Final prep. Celebrate.",
+    focus:"Hydration, sleep, confidence. No crash diets, no last-minute panic. You've done the work.",
+    days:"6 days/week (peak + taper)",
+    meals:[
+      {day:"Sun/Wed", name:"Light Tuna Salad Wraps", desc:"Tuna, Greek yogurt (instead of mayo), cucumber, herbs in lettuce wraps", badge:"Light & fresh ✓"},
+      {day:"Mon/Thu", name:"Energizing Bean Soup", desc:"White beans, vegetable broth, lemon, greens. Simple and cleansing.", badge:"Hydrating ✓"},
+      {day:"Tue/Fri", name:"Your Favorite From the Program", desc:"Pick the meal that made you happiest. Cook it with intention.", badge:"You earned it 🌟"},
+      {day:"Sat", name:"Celebration Dinner", desc:"Cook something you love with the people you love. Food is joy.", badge:"Life is for living 🥂"},
+    ],
+    snacks:["Watermelon or cucumber (hydrating)","Nut milk smoothie","Seaweed + a few nuts"],
+    sessions:[
+      {label:"Day 1 · Elliptical Victory Lap", detail:"50 min elliptical — your strongest session of the program. Push resistance to 7 for the middle 30 min. You've built up to this. Let it show."},
+      {label:"Day 2 · Full Body Strength (Your Routine)", detail:"30 min — design your own circuit using your favorite moves from all phases. You know your body now. You've earned the right to lead your own workout."},
+      {label:"Day 3 · Row + Stretch", detail:"20 min rowing (moderate pace, focus on form and breath) + 25 min full body stretch. Long, intentional, grateful."},
+      {label:"Day 4 · Bike + Light Core", detail:"25 min bike (comfortable pace, resistance 5) + 15 min core. Maintenance mode — feel strong, not depleted."},
+      {label:"Day 5 · Dance or Joyful Movement", detail:"Put on music that makes you feel like yourself. Move however feels good for 30 min. Bike, elliptical, living room dance party — your call. This is a celebration."},
+      {label:"Day 6 · Final Stretch + Reflect", detail:"30 min full body mobility and stretch. No machines today. Just you, the floor, and the knowledge that you showed up for yourself for 13 weeks."},
+    ],
+    journal:[
+      "Compare: how did I feel on March 8 vs. today?",
+      "What was the hardest week? What got me through it?",
+      "What does confidence feel like in my body right now?",
+      "Write a love letter to yourself. Seriously. Do it."
+    ],
+    milestone:"Completing the full 13-week program",
+    reward:"🌺 THE BIKINI. A beach day. A photo. A moment that's all yours."
+  }
+];
+
+// STATE
+let currentPhase = 0;
+let currentSection = 'meals';
+let state = {
+  workouts: {},   // key: "phaseId-sessionIdx" -> bool
+  journal: {},    // key: "phaseId-promptIdx" -> string
+  milestones: {}  // key: phaseId -> bool
+};
+
+// LOAD from localStorage
+function loadState() {
+  try {
+    const saved = localStorage.getItem('bikini_program_state');
+    if (saved) state = JSON.parse(saved);
+  } catch(e) {}
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('bikini_program_state', JSON.stringify(state));
+    showToast();
+  } catch(e) {}
+}
+
+function showToast() {
+  const t = document.getElementById('save-toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+function totalWorkouts() {
+  return Object.values(state.workouts).filter(Boolean).length;
+}
+
+function updateProgress() {
+  const total = totalWorkouts();
+  document.getElementById('workout-count').textContent = total + ' / 50+ sessions';
+  const pct = Math.min(100, Math.round((total / 50) * 100));
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function toggleShop() {
+  const panel = document.getElementById('shopping-panel');
+  const btn = document.getElementById('shop-btn-text');
+  panel.classList.toggle('open');
+  btn.textContent = panel.classList.contains('open') ? 'Hide' : 'Show';
+}
+
+function setPhase(idx) {
+  currentPhase = idx;
+  currentSection = 'meals';
+  // update tab styles
+  PHASES.forEach((p, i) => {
+    const tab = document.getElementById('tab-' + i);
+    if (i === idx) {
+      tab.classList.add('active');
+      tab.style.background = p.color;
+      tab.style.color = '#1a1a2e';
+    } else {
+      tab.classList.remove('active');
+      tab.style.background = 'transparent';
+      tab.style.color = '#8899aa';
+    }
+  });
+  render();
+}
+
+function setSection(section) {
+  currentSection = section;
+  render();
+}
+
+function toggleWorkout(phaseId, idx) {
+  const key = phaseId + '-' + idx;
+  state.workouts[key] = !state.workouts[key];
+  saveState();
+  updateProgress();
+  render();
+}
+
+function toggleMilestone(phaseId) {
+  state.milestones[phaseId] = !state.milestones[phaseId];
+  saveState();
+  render();
+}
+
+function openPrompt(phaseId, idx) {
+  const bodyEl = document.getElementById('jbody-' + phaseId + '-' + idx);
+  const toggleEl = document.getElementById('jtoggle-' + phaseId + '-' + idx);
+  const isOpen = bodyEl.classList.contains('open');
+  // close all others in this phase
+  PHASES[currentPhase].journal.forEach((_, i) => {
+    document.getElementById('jbody-' + phaseId + '-' + i)?.classList.remove('open');
+    const t = document.getElementById('jtoggle-' + phaseId + '-' + i);
+    if (t) t.textContent = '+';
+  });
+  if (!isOpen) {
+    bodyEl.classList.add('open');
+    toggleEl.textContent = '−';
+  }
+}
+
+function saveJournal(phaseId, idx) {
+  const ta = document.getElementById('jta-' + phaseId + '-' + idx);
+  if (!ta || !ta.value.trim()) return;
+  state.journal[phaseId + '-' + idx] = ta.value.trim();
+  saveState();
+  render();
+}
+
+function render() {
+  const p = PHASES[currentPhase];
+  const c = p.color;
+  const a = p.accent;
+
+  // set CSS vars
+  document.documentElement.style.setProperty('--phase-color', c);
+  document.documentElement.style.setProperty('--phase-accent', a);
+  document.documentElement.style.setProperty('--phase-color-40', c + '40');
+  document.documentElement.style.setProperty('--phase-color-60', c + '60');
+
+  let html = '';
+
+  // Phase card
+  html += `
+  <div class="phase-card" style="--phase-color:${c};--phase-accent:${a}">
+    <div class="phase-card-top">
+      <div>
+        <div class="phase-eyebrow" style="color:${c}">Phase ${p.id} · ${p.dates}</div>
+        <h2 class="phase-title">${p.emoji} ${p.name}</h2>
+        <p class="phase-tagline">"${p.tagline}"</p>
+        <p class="phase-goal"><strong>Goal:</strong> ${p.goal}</p>
+      </div>
+      <div class="phase-days-badge" style="background:${c}">${p.days}</div>
+    </div>
+    <div class="phase-focus">💡 <strong>This phase focus:</strong> ${p.focus}</div>
+  </div>`;
+
+  // Section tabs
+  const tabs = [
+    {id:'meals', label:'🍽️ Meals'},
+    {id:'workouts', label:'💪 Workouts'},
+    {id:'journal', label:'📓 Journal'},
+    {id:'milestone', label:'🏆 Milestone'}
+  ];
+  html += `<div class="section-tabs" style="--phase-color:${c}">`;
+  tabs.forEach(t => {
+    const active = currentSection === t.id ? 'active' : '';
+    const activeStyle = currentSection === t.id ? `background:${c};color:#fff;border-color:${c};` : '';
+    html += `<button class="section-tab ${active}" style="${activeStyle}--phase-color:${c}" onclick="setSection('${t.id}')">${t.label}</button>`;
+  });
+  html += `</div>`;
+
+  // MEALS
+  if (currentSection === 'meals') {
+    html += `<div class="meal-grid">`;
+    p.meals.forEach(m => {
+      html += `
+      <div class="meal-card" style="--phase-color:${c};--phase-accent:${a};border-top-color:${c}">
+        <div>
+          <div class="meal-day">${m.day}</div>
+          <div class="meal-name">${m.name}</div>
+          <div class="meal-desc">${m.desc}</div>
+        </div>
+        <span class="meal-badge" style="background:${a};color:${c};border-color:${c}40">${m.badge}</span>
+      </div>`;
+    });
+    html += `</div>`;
+    html += `<div class="snack-box" style="--phase-color:${c}">
+      <div class="snack-label" style="color:${c}">DAILY SNACKS</div>`;
+    p.snacks.forEach(s => {
+      html += `<div class="snack-item"><span class="snack-dot" style="color:${c}">◆</span> ${s}</div>`;
+    });
+    html += `</div>`;
+  }
+
+  // WORKOUTS
+  if (currentSection === 'workouts') {
+    html += `<div class="workout-grid">`;
+    p.sessions.forEach((s, i) => {
+      const key = p.id + '-' + i;
+      const done = !!state.workouts[key];
+      const cardBg = done ? a : '#fff';
+      const cardBorder = done ? c : 'transparent';
+      html += `
+      <div class="workout-card" style="background:${cardBg};border-color:${cardBorder}">
+        <div>
+          <div class="workout-label" style="${done ? 'color:' + c : ''}">${done ? '✓ ' : ''}${s.label}</div>
+          <div class="workout-detail">${s.detail}</div>
+        </div>
+        <button class="workout-check ${done ? 'checked' : ''}"
+          style="border-color:${c};${done ? 'background:' + c + ';color:#fff' : 'color:' + c}"
+          onclick="toggleWorkout(${p.id}, ${i})">${done ? '✓' : '○'}</button>
+      </div>`;
+    });
+    html += `</div>`;
+    html += `<div class="workout-note">Tap ○ to log a session · Total logged: ${totalWorkouts()}</div>`;
+  }
+
+  // JOURNAL
+  if (currentSection === 'journal') {
+    html += `<p class="journal-intro">Choose a prompt, write your thoughts. No wrong answers. No one is grading this.</p>`;
+    html += `<div class="journal-grid">`;
+    p.journal.forEach((prompt, i) => {
+      const key = p.id + '-' + i;
+      const saved = state.journal[key] || '';
+      const headerClass = saved ? 'saved' : '';
+      html += `
+      <div class="journal-prompt">
+        <div class="journal-prompt-header ${headerClass}" style="${saved ? 'background:' + a : ''}" onclick="openPrompt(${p.id}, ${i})">
+          <div class="journal-prompt-text">${saved ? '✍️ ' : '◆ '}${prompt}</div>
+          <div class="journal-toggle" id="jtoggle-${p.id}-${i}" style="color:${c}">+</div>
+        </div>
+        <div class="journal-body" id="jbody-${p.id}-${i}">
+          ${saved ? `<div class="journal-saved-entry" style="background:${a}">${saved}</div>` : ''}
+          <textarea class="journal-textarea" id="jta-${p.id}-${i}" style="border-color:${c}60" placeholder="Write your thoughts here...">${saved}</textarea>
+          <button class="journal-save" style="background:${c}" onclick="saveJournal(${p.id}, ${i})">Save Entry</button>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // MILESTONE
+  if (currentSection === 'milestone') {
+    const achieved = !!state.milestones[p.id];
+    html += `
+    <div class="milestone-card" style="border-top-color:${c}">
+      <div class="milestone-emoji">${p.emoji}</div>
+      <div class="milestone-eyebrow" style="color:${c}">PHASE ${p.id} MILESTONE</div>
+      <div class="milestone-text">${p.milestone}</div>
+      <div class="milestone-reward-box" style="background:${a}">
+        <div class="milestone-reward-label" style="color:${c}">YOUR REWARD</div>
+        <div class="milestone-reward-text">${p.reward}</div>
+      </div>
+      <button class="milestone-btn ${achieved ? 'achieved' : ''}"
+        style="${achieved ? 'background:' + c + ';color:#fff;border-color:' + c : 'color:' + c + ';border-color:' + c}"
+        onclick="toggleMilestone(${p.id})">
+        ${achieved ? '✓ Milestone Achieved! Claim your reward.' : 'Mark Milestone Complete'}
+      </button>
+      ${achieved ? `<div class="milestone-note">You earned it. Don't skip this reward — it's part of the program. 🌺</div>` : ''}
+    </div>
+    <div class="all-milestones">
+      <div class="all-milestones-label">ALL PHASE REWARDS</div>`;
+    PHASES.forEach(ph => {
+      const done = !!state.milestones[ph.id];
+      html += `
+      <div class="milestone-row ${done ? 'done' : 'pending'}">
+        <span class="milestone-row-emoji">${ph.emoji}</span>
+        <div class="milestone-row-info">
+          <div class="milestone-row-name">${ph.name} · ${ph.weeks}</div>
+          <div class="milestone-row-reward">${ph.reward}</div>
+        </div>
+        <span class="milestone-row-check" style="color:${ph.color}">${done ? '✓' : '○'}</span>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  document.getElementById('content').innerHTML = html;
+  updateProgress();
+}
+
+// INIT
+loadState();
+render();
+updateProgress();
+</script>
+</body>
+</html>
